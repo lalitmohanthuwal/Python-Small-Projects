@@ -1,99 +1,52 @@
-import math
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import ttk
+import math
 
-def add(a, b):
-    return a + b
+def on_button_click(value):
+    if value == "C":
+        entry_var.set("")
+    elif value == "CE":
+        entry_var.set(entry_var.get()[:-1])
+    elif value == "⌫":
+        entry_var.set(entry_var.get()[:-1])
+    elif value == "=":
+        try:
+            entry_var.set(eval(entry_var.get()))
+        except:
+            entry_var.set("Error")
+    else:
+        entry_var.set(entry_var.get() + str(value))
 
-def subtract(a, b):
-    return a - b
-
-def multiply(a, b):
-    return a * b
-
-def divide(a, b):
-    if b == 0:
-        return "Error: Division by zero"
-    return a / b
-
-def power(a, b):
-    return a ** b
-
-def sqrt(a):
-    if a < 0:
-        return "Error: Square root of negative number"
-    return math.sqrt(a)
-
-def sin(a):
-    return math.sin(math.radians(a))
-
-def cos(a):
-    return math.cos(math.radians(a))
-
-def tan(a):
-    return math.tan(math.radians(a))
-
-def perform_calculation():
-    try:
-        num1 = float(entry1.get()) if entry1.get() else None
-        num2 = float(entry2.get()) if entry2.get() else None
-        operation = operation_var.get()
-
-        if operation == "Add":
-            result = add(num1, num2)
-        elif operation == "Subtract":
-            result = subtract(num1, num2)
-        elif operation == "Multiply":
-            result = multiply(num1, num2)
-        elif operation == "Divide":
-            result = divide(num1, num2)
-        elif operation == "Power":
-            result = power(num1, num2)
-        elif operation == "Square Root":
-            result = sqrt(num1)
-        elif operation == "Sine":
-            result = sin(num1)
-        elif operation == "Cosine":
-            result = cos(num1)
-        elif operation == "Tangent":
-            result = tan(num1)
-        else:
-            result = "Invalid operation"
-
-        result_label.config(text=f"Result: {result}")
-
-    except ValueError:
-        messagebox.showerror("Invalid Input", "Please enter valid numeric values.")
-
-# GUI setup
 root = tk.Tk()
-root.title("Scientific Calculator")
+root.title("Modern Calculator")
+root.geometry("400x500")
+root.configure(bg="#1e1e1e")
+root.resizable(True, True)  # Allow resizing
 
-# Input fields
-entry1 = tk.Entry(root, width=20)
-entry1.grid(row=0, column=1, padx=10, pady=5)
-entry2 = tk.Entry(root, width=20)
-entry2.grid(row=1, column=1, padx=10, pady=5)
+entry_var = tk.StringVar()
 
-# Labels for inputs
-tk.Label(root, text="First Number:").grid(row=0, column=0, padx=10, pady=5)
-tk.Label(root, text="Second Number:").grid(row=1, column=0, padx=10, pady=5)
+ttk.Style().configure("TButton", font=("Arial", 14), padding=10)
 
-# Dropdown for operations
-operation_var = tk.StringVar(value="Add")
-operations = ["Add", "Subtract", "Multiply", "Divide", "Power", "Square Root", "Sine", "Cosine", "Tangent"]
-operation_menu = tk.OptionMenu(root, operation_var, *operations)
-operation_menu.grid(row=2, column=1, padx=10, pady=5)
-tk.Label(root, text="Operation:").grid(row=2, column=0, padx=10, pady=5)
+entry = tk.Entry(root, textvariable=entry_var, font=("Arial", 24), bg="#282c34", fg="white", justify="right")
+entry.pack(pady=20, padx=10, fill="both")
 
-# Calculate button
-calculate_button = tk.Button(root, text="Calculate", command=perform_calculation)
-calculate_button.grid(row=3, column=0, columnspan=2, pady=10)
+buttons = [
+    ["%", "CE", "C", "⌫"],
+    ["1/x", "x²", "√x", "/"],
+    ["7", "8", "9", "*"],
+    ["4", "5", "6", "-"],
+    ["1", "2", "3", "+"],
+    ["+/-", "0", ".", "="]
+]
 
-# Result label New
-result_label = tk.Label(root, text="Result: ", font=("Arial", 14))
-result_label.grid(row=4, column=0, columnspan=2, pady=10)
+frame = tk.Frame(root, bg="#1e1e1e")
+frame.pack(pady=10, fill="both", expand=True)
+
+for r, row in enumerate(buttons):
+    frame.rowconfigure(r, weight=1)
+    for c, char in enumerate(row):
+        frame.columnconfigure(c, weight=1)
+        btn = tk.Button(frame, text=char, font=("Arial", 16), bg="#333", fg="white", relief="flat", command=lambda v=char: on_button_click(v))
+        btn.grid(row=r, column=c, padx=5, pady=5, sticky="nsew")  # Allow buttons to expand
 
 root.mainloop()
-
-# Hello its completed
