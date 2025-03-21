@@ -3,7 +3,7 @@ import json
 import urllib.request
 import os
 
-#Weather
+
     
 app = Flask(__name__)
 
