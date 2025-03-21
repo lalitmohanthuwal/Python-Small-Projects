@@ -90,7 +90,7 @@ tk.Label(root, text="Operation:").grid(row=2, column=0, padx=10, pady=5)
 calculate_button = tk.Button(root, text="Calculate", command=perform_calculation)
 calculate_button.grid(row=3, column=0, columnspan=2, pady=10)
 
-# Result label
+# Result label New
 result_label = tk.Label(root, text="Result: ", font=("Arial", 14))
 result_label.grid(row=4, column=0, columnspan=2, pady=10)
 
