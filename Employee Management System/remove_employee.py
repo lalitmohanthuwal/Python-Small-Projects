@@ -1,29 +1,19 @@
+import mysql.connector
+from main import con, check_employee
 def remove_employee():
-    Id = input("Enter Employee Id: ")
-
-    # Checking if Employee with given Id exists
-    if not check_employee(Id):
+    emp_id = input("Enter Employee ID: ").strip()
+    
+    if not check_employee(emp_id):
         print("Employee does not exist. Please try again.")
         return
-    
-    else:
-        # Query to delete employee from the employees table
-        sql = 'DELETE FROM employees WHERE id=%s'
-        data = (Id,)
-        cursor = con.cursor()
 
-        try:
-            # Executing the SQL Query
-            cursor.execute(sql, data)
+    sql = "DELETE FROM employees WHERE id=%s"
 
-            # Committing the transaction
+    try:
+        with con.cursor() as cursor:
+            cursor.execute(sql, (emp_id,))
             con.commit()
-            print("Employee Removed Successfully")
-        
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            con.rollback()
-        
-        finally:
-            # Closing the cursor
-            cursor.close()
+            print("Employee Removed Successfully.")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        con.rollback()

@@ -1,33 +1,29 @@
-def add_employee():
-    Id = input("Enter Employee Id: ")
+import mysql.connector
+from main import con, check_employee
 
-    # Checking if Employee with given Id already exists
-    if check_employee(Id):
+def add_employee():
+    emp_id = input("Enter Employee ID: ").strip()
+    
+    if check_employee(emp_id):
         print("Employee already exists. Please try again.")
         return
     
-    else:
-        Name = input("Enter Employee Name: ")
-        Post = input("Enter Employee Post: ")
-        Salary = input("Enter Employee Salary: ")
+    name = input("Enter Employee Name: ").strip()
+    post = input("Enter Employee Post: ").strip()
+    try:
+        salary = float(input("Enter Employee Salary: "))
+    except ValueError:
+        print("Invalid salary input. Please enter a valid number.")
+        return
 
-        # Inserting Employee details into the employees table
-        sql = 'INSERT INTO employees (id, name, position, salary) VALUES (%s, %s, %s, %s)'
-        data = (Id, Name, Post, Salary)
-        cursor = con.cursor()
-
-        try:
-            # Executing the SQL Query
+    sql = "INSERT INTO employees (id, name, position, salary) VALUES (%s, %s, %s, %s)"
+    data = (emp_id, name, post, salary)
+    
+    try:
+        with con.cursor() as cursor:
             cursor.execute(sql, data)
-
-            # Committing the transaction
             con.commit()
-            print("Employee Added Successfully")
-        
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            con.rollback()
-        
-        finally:
-            # Closing the cursor
-            cursor.close()
+            print("Employee Added Successfully.")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
