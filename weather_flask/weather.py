@@ -34,7 +34,7 @@ def weather():
             "city": city,
             "country_code": str(list_of_data.get('sys', {}).get('country', 'N/A')),
             "coordinate": f"{list_of_data.get('coord', {}).get('lon', 'N/A')} {list_of_data.get('coord', {}).get('lat', 'N/A')}",
-            "temp": f"{list_of_data.get('main', {}).get('temp', 'N/A')} K",
+            "temp": f"{list_of_data.get('main', {}).get('temp', 'N/A')} C",
             "pressure": list_of_data.get('main', {}).get('pressure', 'N/A'),
             "humidity": list_of_data.get('main', {}).get('humidity', 'N/A'),
         }
