@@ -2,7 +2,7 @@ import cv2
 import os
 
 # Define the path to the Haarcascade file (ensure it's in the working directory or specify full path)
-HAAR_FILE = r"C:\Users\lalit\OneDrive\Desktop\face detection\HAAR_FILE.xml"
+HAAR_FILE = r"\Users\lalit\OneDrive\Desktop\Projects\Python mini Projects\face detection\HAAR_FILE.xml"
 
 # Validate Haarcascade file existence
 if not os.path.exists(HAAR_FILE):
